@@ -20,6 +20,7 @@ debt=db["Debt"]
 #     "balance":0.0,
 #     "friend":[None],
 #     "debt":[None],
+#     "transaction": [None],
 #     "status":False
 # }
 
