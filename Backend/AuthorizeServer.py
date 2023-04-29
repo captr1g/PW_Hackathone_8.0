@@ -116,5 +116,6 @@ def get_current_user(token : str = Depends(oauth2_scheme)):
             return None
         data = Schema.UserData(username = username)
     except Exception as e:
+        # print(e)
         raise credentials_exception
     return data

@@ -14,7 +14,7 @@ def all_groups(request:Request, current_user:Schema.UserData=Depends(Auth.get_cu
     groups = GroupServer.Get_All_Group(current_user)
     return groups
 
-@router.get("/{group_id}", response_model=Schema,status_code=status.HTTP_200_OK)
+@router.get("/{group_id}", response_model=Schema.GroupInfo,status_code=status.HTTP_200_OK)
 def group_detail(request:Request, group_id:str, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     group = GroupServer.Get_Group(current_user, group_id)
     return group

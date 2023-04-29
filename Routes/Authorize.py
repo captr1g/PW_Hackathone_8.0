@@ -14,7 +14,7 @@ def Create_Account(request:Schema.Sign_up):
     else:
         try:
             new_user = AuthorizeServer.Create_User(request)
-            return new_user
+            return str(new_user)
         except Exception as e:
             return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=e)
 
