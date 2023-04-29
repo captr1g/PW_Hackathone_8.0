@@ -46,10 +46,14 @@ class Token(BaseModel):
 class UserData(BaseModel):
     username : str
 
-
+class Group_Transaction(BaseModel):
+    transaction_id:str
+    per_head_amount:float
+    no_of_head:int
+    
 
 class GroupInfo(BaseModel):
     group_id : str
     group_name : str
     group_member : List[UserData]
-    group_transaction : List[]
+    group_transaction : List[Group_Transaction]
