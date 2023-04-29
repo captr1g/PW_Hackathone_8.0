@@ -45,3 +45,11 @@ class Token(BaseModel):
 
 class UserData(BaseModel):
     username : str
+
+
+
+class GroupInfo(BaseModel):
+    group_id : str
+    group_name : str
+    group_member : List[UserData]
+    group_transaction : List[]

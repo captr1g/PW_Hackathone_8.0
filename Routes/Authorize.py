@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, status, Request, HTTPException
-from fastapi.responses import RedirectResponse
+from fastapi import APIRouter, Depends, status, HTTPException
 from Backend import Schema, AuthorizeServer
 from fastapi.security import OAuth2PasswordRequestForm
 

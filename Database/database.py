@@ -43,6 +43,7 @@ debt=db["Debt"]
 
 # group_data = {
 #     "group_name":"Hackathon8.0",
+#     "group_id":"Hackathon8",
 #     "group_member":[None],
 #     "group_status":False,
 #     "group_transaction":[None]
