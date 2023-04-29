@@ -46,5 +46,3 @@ def Add_Group(data:Schema.AddGroup, username:str, groups:database.group):
         "group_status":True,
         "group_transaction":[None]
     }
-    
-        
