@@ -18,7 +18,13 @@ class friends_detail(BaseModel):
     name : str
     username : str
 
-
+class Transaction_detail(BaseModel):
+    amount: int 
+    date: str
+    Money_send: int
+    Money_receive: int
+    Group_name: str
+    Credits: bool
 class Profile(BaseModel):
    username: str
    name : str
@@ -29,3 +35,4 @@ class Profile(BaseModel):
    payment_preference: int
    wallet_balance : int
    friends: List[friends_detail]
+   Transaction: List[Transaction_detail]
