@@ -1,10 +1,11 @@
-from couchbase.cluster import Cluster
-from couchbase.cluster import PasswordAuthenticator
+from pymongo import MongoClient
 
-# Connect to the Couchbase cluster
-cluster = Cluster('couchbase://localhost')
-authenticator = PasswordAuthenticator('username', 'password')
-cluster.authenticate(authenticator)
+client = MongoClient("mongodb+srv://PW_Hackathons:hackathon2.0@payshift.2plumw0.mongodb.net/?retryWrites=true&w=majority", 8000)
+db = client["PayShift"]
 
-# Open a bucket
-bucket = cluster.open_bucket('bucket_name')
+with open("log.log", mode='a+') as file:
+    if (len(client.list_database_names())> 0):
+        file.writelines("SUCCESS: MongoDB connection is successful")
+    else:
+        file.writelines("ERROR: MongoDB connection is failed")
+    
