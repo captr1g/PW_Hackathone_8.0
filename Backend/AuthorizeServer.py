@@ -3,7 +3,7 @@ from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
 from fastapi.security import OAuth2, OAuth2PasswordRequestForm
 from fastapi.security.utils import get_authorization_scheme_param
 from passlib.context import CryptContext
-import Schema
+from . import Schema
 from Database import database
 from jose import jwt
 from typing import Optional, Dict
@@ -53,12 +53,27 @@ def verify_password(plain_pass:str, hash_pass:str):
     return pwd_context.verify(plain_pass, hash_pass)
 
 def Exist_User(username:str, user=database.db.user):
-    return (user.find({"username": username}) > 0)
+    print(user.find({"username": username}))
+    return (user.find({"username": username}))
 
-# def Create_User(data:Schema.Sign_up, database=database.db.user):
-#     pass
-
-if Exist_User("1hk"):
-    print("Exist")
-else:
-    print("None")
+def Create_User(data:Schema.Sign_up, user=database.db.user):
+    information = {
+        "name":data.name,
+        "username":data.username,
+        "email":data.email,
+        "phone":data.phone_number,
+        "gender":data.gender,
+        "dob":data.DOB,
+        "password":hash_pass(data.password),
+        "address":data.address,
+        "payment_pref":None,
+        "balance":0.0,
+        "friend":[None],
+        "debt":[None],
+        "status":False
+    }
+    try:
+        x = user.insert_one(information)
+        return x.inserted_id
+    except Exception as e: 
+        return e

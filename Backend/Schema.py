@@ -9,6 +9,7 @@ class Sign_up(BaseModel):
     gender: str
     DOB: str
     password : str
+    address:str
     
 class Log_in(BaseModel):
     username : str

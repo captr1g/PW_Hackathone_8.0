@@ -11,7 +11,12 @@ def Create_Account(request:Schema.Sign_up):
     if exist_user is True:
         return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Username Already Exist")
     else:
-        AuthorizeServer.Create_User(request)
+        try:
+            new_user = AuthorizeServer.Create_User(request)
+        except Exception as e:
+            return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=e)
+
+        
 
 
     
