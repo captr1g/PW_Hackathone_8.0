@@ -66,3 +66,22 @@ class AllGroup(BaseModel):
 class AddGroup(BaseModel):
     group_name:str
     group_member:List[str]
+
+
+class friends_profile(BaseModel):
+    username: str
+    name : str
+    email : str
+    phone_number : str
+    gender: str
+    DOB: str
+    Address: str
+    friends: List[friends_detail]
+
+class other_profile(BaseModel):
+    username: str
+    name : str
+    email : str
+    gender: str
+    DOB: str
+    Address: str
