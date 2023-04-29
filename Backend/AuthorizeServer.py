@@ -71,7 +71,7 @@ def Create_User(data:Schema.Sign_up, user=database.user):
         "friend":[None],
         "debt":[None],
         "transaction": [None],
-        "status":False
+        "status":True
     }
     try:
         x = user.insert_one(information)
