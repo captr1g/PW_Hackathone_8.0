@@ -21,3 +21,5 @@ def profile(request:Request, username:str):
         return user # remove response_class from the decorator
         # return templates.TemplateResponse("profile.html", {"request": request, "data":user, "user":current_user.user})
     
+    
+    
