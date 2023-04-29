@@ -3,5 +3,5 @@ from Database import database
 from fastapi import HTTPException, status
 
 
-def profile_Finder(request: request, username: str):
-    
+def profile_Finder(username: str):
+    pass

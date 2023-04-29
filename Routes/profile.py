@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, status, Request, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from Database import database
-from sqlalchemy.orm import Session
 from Backend import Schema,Profile_backend, AuthorizeServer as Auth
 
 router = APIRouter( prefix='/profile', tags=['Profile'])
@@ -14,7 +13,7 @@ def redirect_to_profile(request:Request, current_user:Schema.UserData=Depends(Au
 @router.get("/{username}", response_model=Schema.Profile, status_code=status.HTTP_200_OK)
 def profile_Finder(request:Request, username:str):
     current_user = Auth.get_current_user()
-    user = Profile.Display_Profile(username)
+    user = Profile_backend.Display_Profile(username)
     if user == current_user:
         return user
     elif(user in Profile_backend.friends):
