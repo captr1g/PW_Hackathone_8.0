@@ -38,3 +38,10 @@ class Profile(BaseModel):
    wallet_balance : int
    friends: List[friends_detail]
    Transaction: List[Transaction_detail]
+
+class Token(BaseModel):
+    access_token : str
+    token_type : str
+
+class UserData(BaseModel):
+    username : str

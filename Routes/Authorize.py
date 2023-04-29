@@ -10,10 +10,13 @@ router = APIRouter(tags=['Authentication'])
 @router.post('/signup', status_code=status.HTTP_201_CREATED)
 def Create_Account(request:Schema.Sign_up):
     exist_user = AuthorizeServer.Exist_User(request.username)
+    # print(exist_user)
     if exist_user is not None:
+        # print(2)
         return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Username Already Exist")
     else:
         try:
+            # print(1)
             new_user = AuthorizeServer.Create_User(request)
         except Exception as e:
             return HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=e)

@@ -53,8 +53,8 @@ def verify_password(plain_pass:str, hash_pass:str):
     return pwd_context.verify(plain_pass, hash_pass)
 
 def Exist_User(username:str, user=database.user):
-    print(user.find_one({"username": username}))
-    return (user.find({"username": username}))
+    # print(user.find_one({"username": username}))
+    return (user.find_one({"username": username}))
 
 def Create_User(data:Schema.Sign_up, user=database.user):
     information = {
@@ -84,10 +84,10 @@ def create_access_token(data:dict):
     jwt_token = jwt.encode(to_encode, SECRET_KEY, ALGORITHM)
     return jwt_token
 
-def get_user(username:str, user:database.user):
+def get_user(username:str, user=database.user):
     info = user.find_one({"username": username}, {'_id':0, 'username':1, 'password':1})
     if info is not None:
-        return {'username':user['username'], 'password':user['password']}
+        return {'username':info['username'], 'password':info['password']}
     else:
         return None
     
@@ -98,7 +98,7 @@ def Login(data:OAuth2PasswordRequestForm):
         return None
     else:
         if verify_password(data.password, user['password']):
-            access_token = create_access_token({"username":user['usernaame'], "password":data.password})
+            access_token = create_access_token({"username":user['username'], "password":data.password})
             return Schema.Token(access_token=access_token, token_type='bearer')
         else:
             return None
@@ -112,10 +112,9 @@ def get_current_user(token : str = Depends(oauth2_scheme)):
     try :
         result = jwt.decode(token, SECRET_KEY, ALGORITHM)
         username : str = result.get("username")
-        role : str = result.get("user")
         if username is None:
             return None
-        data = Schema.UserData(username = username, user = role)
+        data = Schema.UserData(username = username)
     except Exception as e:
         raise credentials_exception
     return data
