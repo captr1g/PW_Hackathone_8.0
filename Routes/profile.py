@@ -4,7 +4,6 @@ from Database import database
 from Backend import Schema,Profile_backend, AuthorizeServer as Auth
 
 router = APIRouter( prefix='/profile', tags=['Profile'])
-db = database.get_db
 
 @router.get("/", status_code=status.HTTP_200_OK)
 def redirect_to_profile(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):

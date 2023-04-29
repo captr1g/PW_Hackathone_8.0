@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, status, Request, HTTPException
 from fastapi.responses import RedirectResponse
 from Backend import Schema, GroupServer, AuthorizeServer as Auth
 
-router = APIRouter(prefix='/groups', tags=['Groups'])
+router = APIRouter(prefix='/group', tags=['Groups'])
 
 @router.get("/", status_code=status.HTTP_302_FOUND)
 def redirect_to_groups(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
@@ -14,7 +14,7 @@ def all_groups(request:Request, current_user:Schema.UserData=Depends(Auth.get_cu
     groups = GroupServer.Get_All_Group(current_user)
     return groups
 
-@router.get("/{group_id}", response_model=Schema,status_code=status.HTTP_200_OK)
+@router.get("/{group_id}", response_model=Schema.GroupInfo,status_code=status.HTTP_200_OK)
 def group_detail(request:Request, group_id:str, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     group = GroupServer.Get_Group(current_user, group_id)
     return group
@@ -23,3 +23,13 @@ def group_detail(request:Request, group_id:str, current_user:Schema.UserData=Dep
 def new_group(request:Schema.AddGroup, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     new_group = GroupServer.Add_Group(request, current_user)
     return new_group
+
+@router.get("/create/people", response_model=List[Schema.UserData], status_code=status.HTTP_200_OK)
+def find_friends(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
+    friends = GroupServer.Find_Friend(current_user)
+    return friends
+
+@router.post("/{group_id}/transaction", status_code=status.HTTP_202_ACCEPTED)
+def transaction(request:Schema.GroupNewTransaction, group_id:str, current_user:Schema.UserData=Depends(Auth.get_current_user)):
+    new_transaction = GroupServer.New_Transaction(request.amount, group_id, current_user)
+    return new_transaction

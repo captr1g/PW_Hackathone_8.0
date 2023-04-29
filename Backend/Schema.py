@@ -35,7 +35,7 @@ class Profile(BaseModel):
    DOB: str
    Address: str
    payment_preference: int
-   wallet_balance : int
+   wallet_balance : float
    friends: List[friends_detail]
    Transaction: List[Transaction_detail]
 
@@ -85,3 +85,7 @@ class other_profile(BaseModel):
     gender: str
     DOB: str
     Address: str
+
+class GroupNewTransaction(BaseModel):
+    amount:float
+    

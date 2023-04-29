@@ -19,7 +19,7 @@ debt=db["Debt"]
 #     "payment_pref":0,
 #     "balance":0.0,
 #     "friend":[None],
-#     "debt":[None],
+#     "debt":None,
 #     "transaction": [None],
 #     "status":False
 # }
@@ -38,6 +38,7 @@ debt=db["Debt"]
 #     "sender":None,
 #     "receiver":None,
 #     "group":None,
+#     "current_balance":0.0,
 #     "status":False
 # }
 
