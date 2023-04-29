@@ -32,6 +32,7 @@ class Profile(BaseModel):
    phone_number : str
    gender: str
    DOB: str
+   Address: str
    payment_preference: int
    wallet_balance : int
    friends: List[friends_detail]
