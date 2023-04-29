@@ -57,3 +57,12 @@ class GroupInfo(BaseModel):
     group_name : str
     group_member : List[UserData]
     group_transaction : List[Group_Transaction]
+
+class AllGroup(BaseModel):
+    group_id:str
+    group_name:str
+    group_member:int
+
+class AddGroup(BaseModel):
+    group_name:str
+    group_member:List[str]
