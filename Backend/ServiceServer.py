@@ -78,22 +78,22 @@ def Send_Money(data:Schema.GroupNewTransaction, username:str, user=database.user
 def Get_Remainder(username:str, user=database.user, debt=database.debt):
     all_debt = user.find_one({"username":username})['debt']
     # print(user.find_one({"username":username}))
-    print(all_debt[1])
-    print((debt.find_one({'_id':all_debt[1]})))
+    # print(all_debt[1:])
+    # print((debt.find_one({'_id':ObjectId(all_debt[1])}))['borrower'])
     details = [
         {
             "id":i,
-            "amount":debt.find_one({'_id':i})['amount'],
-            "lender":debt.find_one({'_id':i})['lender'],
-            "date":debt.find_one({'_id':i})['date']
-        } for i in all_debt
-        if (username in (debt.find_one({'_id':ObjectId(i)})['borrower']))
+            "amount":debt.find_one({'_id':ObjectId(i)})['amount'],
+            "lender":debt.find_one({'_id':ObjectId(i)})['lender'],
+            "date":debt.find_one({'_id':ObjectId(i)})['date']
+        } for i in all_debt[1:]
+        if (username in ((debt.find_one({'_id':ObjectId(i)}))['borrower']))
     ]
-    print(3)
+    # print(details)
     return details
 
 def Pay_Debt(data:Schema.PayDebt, username:str, debt=database.debt, user=database.user, transaction=database.transaction):
-    detail = debt.find_one({'_id':data.id})
+    detail = debt.find_one({'_id':Objec(data.id)})
     sender = username
     receiver = detail['lender']
     amount = detail['amount']

@@ -22,9 +22,11 @@ def add_money(request:Schema.AddMoney, current_user:Schema.UserData=Depends(Auth
 def send_money(request:Schema.GroupNewTransaction, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     money = ServiceServer.Send_Money(request, current_user.username)
     return money
+
 @router.get("/remainder", status_code=status.HTTP_200_OK, response_class=HTMLResponse)
 def get_remainder(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     remainder = ServiceServer.Get_Remainder(current_user.username)
+    print(remainder)
     return remainder
     # return template.TemplateResponse("remaninder.html",{"request":request, "remaninder": remainder})
 
