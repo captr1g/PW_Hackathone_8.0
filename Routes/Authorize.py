@@ -32,3 +32,7 @@ def Login(request:OAuth2PasswordRequestForm = Depends()):
 @router.get('/login', response_class=HTMLResponse, status_code=status.HTTP_200_OK)
 def load_login_page(request:Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
+@router.get('/register', response_class=HTMLResponse, status_code=status.HTTP_200_OK)
+def load_login_page(request:Request):
+    return templates.TemplateResponse("signup.html", {"request": request})

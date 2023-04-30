@@ -368,16 +368,16 @@
             <div class="menu">
                 <ul>
                     <li><img src="./photo/logo-removebg-preview.png" alt="" height="50px"></li>
-                    <li><a href="./home.html">Home</a> </li>
-                    <li><a href="./services.html">Services</a> </li>
-                    <li><a href="./debt.html">Debt</a> </li>
-                    <li><a href="./group.html"> Groups</a>
+                    <li><a href="/">Home</a> </li>
+                    <li><a href="/services">Services</a> </li>
+                    <li><a href="/debt">Debt</a> </li>
+                    <li><a href="/group"> Groups</a>
                         <!-- <ul class="drop_down">
                         <li>Create Group</li>
                         <li>View Group</li> -->
                     <!-- </ul>  -->
                 </li>
-                    <li><a href="./report.html">Report</a> </li>
+                    <li><a href="/report">Report</a> </li>
                     <li> </li>
                 </ul>
             </div >
@@ -400,34 +400,39 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for r in remainder%}
                     <tr>
-                        <td>a1</td>
-                        <td>mk</td>
-                        <td>12/03/23</td>
-                        <td>unpaid</td>
-                        <td><button class="btn">Pay</button></td>
+                        <td>{{ r['amount'] }}</td>
+                        <td>{{ r['lender'] }}</td>
+                        <td>{{ r['date'] }}</td>
+                        <td>Uncleared</td>
+                        <td><button class="btn" onclick='Delete("{{ r[\"id\"] }}")'>Pay</button></td>
                     </tr>
-                    <tr>
-                        <td>a1</td>
-                        <td>mk</td>
-                        <td>12/03/23</td>
-                        <td>unpaid</td>
-                        <td><button class="btn">Pay</button></td>
-                    </tr>
-                    <tr>
-                        <td>a1</td>
-                        <td>mk</td>
-                        <td>12/03/23</td>
-                        <td>unpaid</td>
-                        <td><button class="btn">Pay</button></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
         
     </article>
     
-    
+    <script>
+        function Delete(pid) {
+            const id = pid;
+            fetch(`/services/remainder?=${id}`, {
+                method: "DELETE",
+                headers: {
+                    "accept": "application/json"
+                }
+            })
+                .then(response => {
+                    response.json()
+                    window.location.href = `/sell/property`;
+                })
+                .catch(error => {
+                    alert("Cannot Delete Due to Some Internal Server Error");
+                });
+        };
+    </script>
     
 
 

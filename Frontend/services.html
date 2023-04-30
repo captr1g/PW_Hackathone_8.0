@@ -367,36 +367,36 @@
             <div class="menu">
                 <ul>
                     <li><img src="./photo/logo-removebg-preview.png" alt="" height="50px"></li>
-                    <li><a href="./home.html">Home</a> </li>
-                    <li><a href="./services.html">Services</a> </li>
-                    <li><a href="./debt.html">Debt</a> </li>
-                    <li><a href="./group.html"> Groups</a>
+                    <li><a href="/">Home</a> </li>
+                    <li><a href="/services">Services</a> </li>
+                    <li><a href="/debt">Debt</a> </li>
+                    <li><a href="/group"> Groups</a>
                         <!-- <ul class="drop_down">
                         <li>Create Group</li>
                         <li>View Group</li> -->
                     <!-- </ul>  -->
                 </li>
-                    <li><a href="./report.html">Report</a> </li>
+                    <li><a href="/report">Report</a> </li>
                     <li> </li>
                 </ul>
             </div >
             <div ><i class="fa-solid fa-magnifying-glass"></i> <input type="text" class="search" ></div>
-            <div ><button class="btn">Login/SignUp</button></div>
+            <div ><button id="login-button" class="btn" onclick="toggleLoginButton()">Login/SignUp</button></div>
         </nav>
     </header>
     <article class="bgimg">
         <div class="art1">
             <div>
                 <h1>Send Money</h1>
-                <a href="./sendm.html"><button class="btn">Pay</button></a>   
+                <a href="send"><button class="btn">Pay</button></a>   
             </div>
             <div>
                 <h1>Add Money to Wallet</h1>
-                <a href="./addm.html"><button class="btn">Add Money</button></a>
+                <a href="add"><button class="btn">Add Money</button></a>
             </div>
             <div>
                 <h1>Payment Remainder</h1>
-                <a href="./debt.html"><button class="btn">Check Due </button></a>
+                <a href="debt"><button class="btn">Check Due </button></a>
             </div>
         </div>
         
@@ -415,4 +415,36 @@
 
     
 </body>
+<script>
+    window.onload = toggleLoginButton;
+    function toggleLoginButton() {
+      function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+      }
+      
+      const accessToken = getCookie("access_token");
+      const loginButton = document.getElementById("login-button");
+
+      if (accessToken) {
+        loginButton.innerHTML = "LOGOUT";
+        loginButton.onclick = function () {
+          function deleteCookie(name) {
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            }
+          deleteCookie("access_token");
+          deleteCookie("user");
+          toggleLoginButton();
+        }
+      } else {
+        loginButton.innerHTML = "LOGIN/SIGNUP";
+        loginButton.onclick = function () {
+          window.location.href = '/login';
+        }
+      }
+
+      }
+    
+</script>
 </html>

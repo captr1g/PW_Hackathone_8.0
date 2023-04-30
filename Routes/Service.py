@@ -18,6 +18,10 @@ def add_money(request:Schema.AddMoney, current_user:Schema.UserData=Depends(Auth
     money = ServiceServer.Add_Money(request, current_user.username)
     return money
 
+@router.get("/add", status_code=status.HTTP_202_ACCEPTED)
+def add_money(request:Schema.AddMoney, current_user:Schema.UserData=Depends(Auth.get_current_user)):
+    return template.TemplateResponse("addm.html", {"request":request})
+
 @router.post("/send", status_code=status.HTTP_202_ACCEPTED)
 def send_money(request:Schema.GroupNewTransaction, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     money = ServiceServer.Send_Money(request, current_user.username)
@@ -26,9 +30,9 @@ def send_money(request:Schema.GroupNewTransaction, current_user:Schema.UserData=
 @router.get("/remainder", status_code=status.HTTP_200_OK, response_class=HTMLResponse)
 def get_remainder(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     remainder = ServiceServer.Get_Remainder(current_user.username)
-    print(remainder)
-    return remainder
-    # return template.TemplateResponse("remaninder.html",{"request":request, "remaninder": remainder})
+    # print(remainder)
+    # return remainder
+    return template.TemplateResponse("debt.html",{"request":request, "remaninder": remainder})
 
 
 @router.post("/remainder", status_code=status.HTTP_202_ACCEPTED, response_class=HTMLResponse)
