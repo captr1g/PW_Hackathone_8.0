@@ -1,4 +1,4 @@
-from . import Schema, AuthorizeServer as Auth
+from . import Schema, ServiceServer, AuthorizeServer as Auth
 from Database import database
 from fastapi import HTTPException, status
 from datetime import datetime, date
@@ -89,23 +89,24 @@ def New_Transaction(data:Schema.GroupNewTransaction, group_id:str, username:str,
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You don't have enough money")
     
     if receiver in members:
-        new_balance = current-amount
-        user.update_one({"username":username}, {'$set':{'balance':new_balance}})
-        transaction_info = {
-            "amount":amount,
-            "date":f"{today} {time}",
-            "sender":username,
-            "group":group_id,
-            "current_balance":new_balance,
-            "status":True
-        }
-        data1 = transaction.insert_one(transaction_info)
-        user.update_one({"username":username}, {'$push':{"transaction":data1.inserted_id}})
-        profile1 = user.find_one({"username":username})
-        current1 = profile1['balance']
-        new_balance1 = current1 + amount
-        user.update_one({"username":receiver}, {'$set':{'balance':new_balance1}})
-        user.update_one({"username":receiver}, {'$push':{"transaction":data1.inserted_id}})
+        value = ServiceServer.Send_Money(data, username)
+        # new_balance = current-amount
+        # user.update_one({"username":username}, {'$set':{'balance':new_balance}})
+        # transaction_info = {
+        #     "amount":amount,
+        #     "date":f"{today} {time}",
+        #     "sender":username,
+        #     "group":group_id,
+        #     "current_balance":new_balance,
+        #     "status":True
+        # }
+        # data1 = transaction.insert_one(transaction_info)
+        # user.update_one({"username":username}, {'$push':{"transaction":data1.inserted_id}})
+        # profile1 = user.find_one({"username":username})
+        # current1 = profile1['balance']
+        # new_balance1 = current1 + amount
+        # user.update_one({"username":receiver}, {'$set':{'balance':new_balance1}})
+        # user.update_one({"username":receiver}, {'$push':{"transaction":data1.inserted_id}})
         return HTTPException(status_code=status.HTTP_202_ACCEPTED, detail="Payment Successful")
     
     new_balance = current-amount
