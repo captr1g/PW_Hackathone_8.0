@@ -66,7 +66,7 @@ def Create_User(data:Schema.Sign_up, user=database.user):
         "password":hash_pass(data.password),
         "address":data.address,
         "payment_pref":None,
-        "balance":0.0,
+        "balance":50000.0,
         "friend":[None],
         "debt":[None],
         "transaction": [None],
