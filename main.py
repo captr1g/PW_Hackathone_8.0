@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from Routes import Authorize, Group, profile
+from Routes import Authorize, Group, profile, Service
 
 app = FastAPI(
     title="PayShift",
@@ -10,3 +10,4 @@ app = FastAPI(
 app.include_router(Authorize.router)
 app.include_router(Group.router)
 app.include_router(profile.router)
+app.include_router(Service.router)

@@ -93,5 +93,5 @@ class GroupNewTransaction(BaseModel):
 
 class AddMoney(BaseModel):
     amount:float
-    
+    password:str
     

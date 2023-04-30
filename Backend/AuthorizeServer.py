@@ -29,7 +29,6 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
 
     async def __call__(self, request: Request) -> Optional[str]:
         authorization: str = request.cookies.get("access_token")
-        print(request.cookies.get("access_token"))
         scheme, param = get_authorization_scheme_param(authorization)
         if not authorization:
             if self.auto_error:
@@ -54,7 +53,6 @@ def verify_password(plain_pass:str, hash_pass:str):
     return pwd_context.verify(plain_pass, hash_pass)
 
 def Exist_User(username:str, user=database.user):
-    # print(user.find_one({"username": username}))
     return (user.find_one({"username": username}))
 
 def Create_User(data:Schema.Sign_up, user=database.user):
@@ -100,7 +98,6 @@ def Login(data:OAuth2PasswordRequestForm):
     else:
         if verify_password(data.password, user['password']):
             access_token = create_access_token({"username":data.username.lower(), "password":data.password})
-            # print(access_token)
             return Schema.Token(access_token=access_token, token_type='bearer')
         else:
             return None
@@ -119,6 +116,5 @@ def get_current_user(token : str = Depends(oauth2_scheme)):
             return None
         data = Schema.UserData(username = username)
     except Exception as e:
-        # print(e)
         raise credentials_exception
     return data

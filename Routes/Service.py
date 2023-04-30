@@ -10,4 +10,5 @@ def service_home(request:Request, current_user:Schema.UserData=Depends(Auth.get_
     pass
 
 @router.get("/add", status_code=status.HTTP_202_ACCEPTED)
-def add_money(request:)
+def add_money(request:Schema.AddMoney, current_user:Schema.UserData=Depends(Auth.get_current_user)):
+    money = ServiceServer.Add_Money(request, current_user.username)
