@@ -1,4 +1,3 @@
-from django.dispatch import receiver
 from pydantic import BaseModel
 from typing import List
 
