@@ -9,27 +9,27 @@ router = APIRouter(prefix='/group', tags=['Groups'])
 def redirect_to_groups(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     return RedirectResponse('all')
 
-@router.get("/all", response_model=List[Schema.AllGroup], status_code=status.HTTP_202_ACCEPTED)
+@router.get("/all", status_code=status.HTTP_202_ACCEPTED)
 def all_groups(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    groups = GroupServer.Get_All_Group(current_user)
+    groups = GroupServer.Get_All_Group(current_user.username)
     return groups
 
-@router.get("/{group_id}", response_model=Schema.GroupInfo,status_code=status.HTTP_200_OK)
+@router.get("/{group_id}", response_model=Schema.GroupInfo, status_code=status.HTTP_200_OK)
 def group_detail(request:Request, group_id:str, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    group = GroupServer.Get_Group(current_user, group_id)
+    group = GroupServer.Get_Group(current_user.username, group_id)
     return group
 
 @router.post("/create", status_code=status.HTTP_201_CREATED)
 def new_group(request:Schema.AddGroup, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    new_group = GroupServer.Add_Group(request, current_user)
+    new_group = GroupServer.Add_Group(request, current_user.username)
     return new_group
 
 @router.get("/create/people", response_model=List[Schema.UserData], status_code=status.HTTP_200_OK)
 def find_friends(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    friends = GroupServer.Find_Friend(current_user)
+    friends = GroupServer.Find_Friend(current_user.username)
     return friends
 
 @router.post("/{group_id}/transaction", status_code=status.HTTP_202_ACCEPTED)
 def transaction(request:Schema.GroupNewTransaction, group_id:str, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    new_transaction = GroupServer.New_Transaction(request.amount, group_id, current_user)
+    new_transaction = GroupServer.New_Transaction(request.amount, group_id, current_user.username)
     return new_transaction

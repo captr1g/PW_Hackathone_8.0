@@ -23,7 +23,7 @@ def Get_Group(username:str, group_id:str, groups=database.group):
     else:
         return HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail="No Such Group Exist")
 
-def Gell_All_Group(username:str, groups=database.group):
+def Get_All_Group(username:str, groups=database.group):
     all_group=[]
     for i in groups.find({}, {'group_id':1, 'group_member':1}):
         if username in i['group_member']:
@@ -40,22 +40,21 @@ def Gell_All_Group(username:str, groups=database.group):
         ]
         return result_data
 
-def Add_Group(data:Schema.AddGroup, username:str, groups:database.group):
+def Add_Group(data:Schema.AddGroup, username:str, groups=database.group):
     time=datetime.now().strftime("%H%M%S")
     today=date.today().strftime("%d%m%y")
-    data.group_member.append(username)
     group_data = {
         "group_name":data.group_name,
-        "group_id":f"{data.group_name.split(' ')[0]}{today}{time}",
-        "group_member":data.group_member,
+        "group_id":f"{(data.group_name.lower()).split(' ')[0]}{today}{time}",
+        "group_member":data.group_member+[username],
         "group_status":True,
         "group_transaction":[None]
     }
     id = groups.insert_one(group_data)
-    return id.inserted_id
+    return f'{id.inserted_id}'
 
 
-def Find_Friend(username:str, user:database.user):
+def Find_Friend(username:str, user=database.user):
     result_data = [
         Schema.UserData(username=i)
         for i in user.find_one({"username":username})['friend']
@@ -76,7 +75,8 @@ def New_Transaction(amount:float, group_id:str, username:str, user=database.user
             "current_balance":profile['balance'],
             "status":False
         }
-        transaction.insert_one(transaction_info)
+        data10 = transaction.insert_one(transaction_info)
+        user.update_one({"username":username}, {"$push":{"transaction":data10.inserted_id}})
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You don't have enough money")
     new_balance = current-amount
     user.update_one({"username":username}, {'$set':{'balance':new_balance}})
@@ -90,15 +90,16 @@ def New_Transaction(amount:float, group_id:str, username:str, user=database.user
         "status":True
     }
     data1 = transaction.insert_one(transaction_info)
-
+    user.update_one({"username":username}, {'$push':{"transaction":data1.inserted_id}})
     grouped = group.find_one({"group_id":group_id})
-    members = grouped['members']
+    members = grouped['group_member']
     grouped_info = {
         "transaction_id":data1.inserted_id,
         "per_head_amount":amount/len(members),
         "no_of_head":len(members)
     }
-    data2 = grouped['group_transaction'].insert_one(grouped_info)
+    # data2 = grouped['group_transaction'].insert_one(grouped_info)
+    data2 = group.update_one({"group_id":group_id}, {'$push':{'group_transaction':grouped_info}})
 
     borrower = [i for i in members if i != username]
     debt_info = {
@@ -112,6 +113,6 @@ def New_Transaction(amount:float, group_id:str, username:str, user=database.user
 
     for i in members:
         if i != username:
-            user.update_one({"username":i}, {'$set':{'debt':data3.inserted_id}})
+            user.update_one({"username":i}, {'$push':{'debt':data3.inserted_id}})
     # group_info
-    return data1.inserted_id
+    return str(data1.inserted_id)
