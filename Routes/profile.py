@@ -17,5 +17,5 @@ def profile_Finder(request:Request, username:str):
     if current_user == None:
         return  Profile_backend.public_profile(username)
     else:
-        data = Profile_backend.profile_Finder_backend(username)
+        data = Profile_backend.profile_Finder_backend(username, current_user.username)
         return data

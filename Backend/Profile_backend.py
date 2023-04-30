@@ -16,12 +16,15 @@ def public_profile(username:str, user=database.user):
         }
     return data
 
-def profile_Finder_backend(username: str, user=database.user):
+def profile_Finder_backend(username: str, current_user:str, user=database.user):
     profile = user.find_one({"username":username})
-    friends = user.find_one({"username" : username})['friend']
-    if user.username == username:
+    print(profile)
+    friends = profile['friend']
+    print(friends,  username, "sothing oiguj")
+    if user["username"] == username:
         return user.username
-    elif(username in friends):
+    elif(current_user in friends):
+        print("inside the if")
         data = {
         "username": profile["username"],
         "name" : profile["name"],
@@ -30,8 +33,9 @@ def profile_Finder_backend(username: str, user=database.user):
         "gender": profile["gender"],
         "DOB": profile["dob"],
         "Address": profile["address"],
-        "friends": profile["friends"]
+        "friends": profile["friend"]
         }
+        return data
     else:
         user=database.user
         profile = user.find_one({"username":username})
