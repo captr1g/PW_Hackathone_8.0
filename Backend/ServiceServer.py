@@ -76,7 +76,9 @@ def Send_Money(data:Schema.GroupNewTransaction, username:str, user=database.user
 
 def Get_Remainder(username:str, user=database.user, debt=database.debt):
     all_debt = user.find_one({"username":username})['debt']
-    print(user.find_one({"username":username}))
+    # print(user.find_one({"username":username}))
+    print(all_debt[1])
+    print((debt.find_one({'_id':all_debt[1]})))
     details = [
         {
             "id":i,
