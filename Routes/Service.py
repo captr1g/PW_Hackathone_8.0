@@ -21,8 +21,9 @@ def send_money(request:Schema.GroupNewTransaction, current_user:Schema.UserData=
 
 @router.get("/remainder", status_code=status.HTTP_200_OK)
 def get_remainder(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    # print(1)
+    print(1)
     remainder = ServiceServer.Get_Remainder(current_user.username)
+    print(2)
     return remainder
 
 @router.post("/remainder", status_code=status.HTTP_202_ACCEPTED)

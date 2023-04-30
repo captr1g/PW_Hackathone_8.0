@@ -22,7 +22,7 @@ def Add_Money(data:Schema.AddMoney, username:str, user=database.user, transactio
         "status":True
     }
     data1 = transaction.insert_one(transaction_info)
-    user.update_one({"username":username}, {'$push':{"transaction":data1.inserted_id}})
+    user.update_one({"username":username}, {'$push':{"transaction":str(data1.inserted_id)}})
 
 def Send_Money(data:Schema.GroupNewTransaction, username:str, user=database.user, transaction=database.transaction):
     amount = data.amount
@@ -47,7 +47,7 @@ def Send_Money(data:Schema.GroupNewTransaction, username:str, user=database.user
             "status":False
         }
         data10 = transaction.insert_one(transaction_info)
-        user.update_one({"username":username}, {"$push":{"transaction":data10.inserted_id}})
+        user.update_one({"username":username}, {"$push":{"transaction":str(data10.inserted_id)}})
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You don't have enough money")
     
     transaction_info1 = {
@@ -70,13 +70,13 @@ def Send_Money(data:Schema.GroupNewTransaction, username:str, user=database.user
     data2 = transaction.insert_one(transaction_info2)
     user.update_one({"username":username}, {'$set':{'balance':current-amount}})
     user.update_one({"username":receiver}, {'$set':{'balance':openbalance+amount}})
-    user.update_one({"username":username}, {'$push':{"transaction":data1.inserted_id}})
-    user.update_one({"username":receiver}, {'$push':{"transaction":data2.inserted_id}})
+    user.update_one({"username":username}, {'$push':{"transaction":str(data1.inserted_id)}})
+    user.update_one({"username":receiver}, {'$push':{"transaction":str(data2.inserted_id)}})
     return str(data1.inserted_id)
 
 def Get_Remainder(username:str, user=database.user, debt=database.debt):
     all_debt = user.find_one({"username":username})['debt']
-    # print(1)
+    print(user.find_one({"username":username}))
     details = [
         {
             "id":i,
@@ -86,7 +86,7 @@ def Get_Remainder(username:str, user=database.user, debt=database.debt):
         } for i in all_debt
         if (username in (debt.find_one({'_id':i})['borrower']))
     ]
-    # print(1)
+    print(3)
     return details
 
 def Pay_Debt(data:Schema.PayDebt, username:str, debt=database.debt, user=database.user, transaction=database.transaction):
@@ -125,8 +125,8 @@ def Pay_Debt(data:Schema.PayDebt, username:str, debt=database.debt, user=databas
     user.update_one({"username":username}, {'$set':{'balance':profile1['balance']-amount}})
     user.update_one({"username":receiver}, {'$set':{'balance':profile2['balance']+amount}})
     
-    user.update_one({"username":username}, {'$push':{"transaction":data1.inserted_id}})
-    user.update_one({"username":receiver}, {'$push':{"transaction":data2.inserted_id}})
+    user.update_one({"username":username}, {'$push':{"transaction":str(data1.inserted_id)}})
+    user.update_one({"username":receiver}, {'$push':{"transaction":str(data2.inserted_id)}})
     
     debt.update_one({'_id':data.id}, {'$set':{"borrower":detail['borrower'].remove(username)}})
     # user.update_one({"username":username}, {'$set':{"debt":profile1['debt'].remove(data.id)}})

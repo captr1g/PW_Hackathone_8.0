@@ -85,28 +85,11 @@ def New_Transaction(data:Schema.GroupNewTransaction, group_id:str, username:str,
             "status":False
         }
         data10 = transaction.insert_one(transaction_info)
-        user.update_one({"username":username}, {"$push":{"transaction":data10.inserted_id}})
+        user.update_one({"username":username}, {"$push":{"transaction":str(data10.inserted_id)}})
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You don't have enough money")
     
     if receiver in members:
         value = ServiceServer.Send_Money(data, username)
-        # new_balance = current-amount
-        # user.update_one({"username":username}, {'$set':{'balance':new_balance}})
-        # transaction_info = {
-        #     "amount":amount,
-        #     "date":f"{today} {time}",
-        #     "sender":username,
-        #     "group":group_id,
-        #     "current_balance":new_balance,
-        #     "status":True
-        # }
-        # data1 = transaction.insert_one(transaction_info)
-        # user.update_one({"username":username}, {'$push':{"transaction":data1.inserted_id}})
-        # profile1 = user.find_one({"username":username})
-        # current1 = profile1['balance']
-        # new_balance1 = current1 + amount
-        # user.update_one({"username":receiver}, {'$set':{'balance':new_balance1}})
-        # user.update_one({"username":receiver}, {'$push':{"transaction":data1.inserted_id}})
         return HTTPException(status_code=status.HTTP_202_ACCEPTED, detail="Payment Successful")
     
     new_balance = current-amount
@@ -122,9 +105,9 @@ def New_Transaction(data:Schema.GroupNewTransaction, group_id:str, username:str,
         "status":True
     }
     data1 = transaction.insert_one(transaction_info)
-    user.update_one({"username":username}, {'$push':{"transaction":data1.inserted_id}})
+    user.update_one({"username":username}, {'$push':{"transaction":str(data1.inserted_id)}})
     grouped_info = {
-        "transaction_id":data1.inserted_id,
+        "transaction_id":str(data1.inserted_id),
         "per_head_amount":amount/len(members),
         "no_of_head":len(members)
     }
@@ -143,6 +126,6 @@ def New_Transaction(data:Schema.GroupNewTransaction, group_id:str, username:str,
 
     for i in members:
         if i != username:
-            user.update_one({"username":i}, {'$push':{'debt':data3.inserted_id}})
+            user.update_one({"username":i}, {'$push':{'debt':str(data3.inserted_id)}})
     # group_info
     return str(data1.inserted_id)
