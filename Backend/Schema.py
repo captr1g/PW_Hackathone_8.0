@@ -1,4 +1,3 @@
-from django.dispatch import receiver
 from pydantic import BaseModel
 from typing import List
 
@@ -91,4 +90,8 @@ class GroupNewTransaction(BaseModel):
     receiver:str
     amount:float
     password:str
+
+class AddMoney(BaseModel):
+    amount:float
+    
     
