@@ -13,12 +13,14 @@ def service_home(request:Request, current_user:Schema.UserData=Depends(Auth.get_
 
 @router.get("/finance_report", status_code=status.HTTP_200_OK)
 def finance_report(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    pass
+    finance = ReportServer.Finance(current_user.username)
+    return finance
 
 
 @router.get("/debt_report", status_code=status.HTTP_200_OK)
 def debt(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    pass
+    debt = ReportServer.Debt(current_user.username)
+    return debt
 
 
 @router.get("/payment_history", status_code=status.HTTP_200_OK)
