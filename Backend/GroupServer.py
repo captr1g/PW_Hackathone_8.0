@@ -50,7 +50,7 @@ def Add_Group(data:Schema.AddGroup, username:str, groups=database.group):
         "group_transaction":[None]
     }
     id = groups.insert_one(group_data)
-    return f'{id.inserted_id}'
+    return group_data['group_id']
 
 
 def Find_Friend(username:str, user=database.user):
@@ -111,6 +111,7 @@ def New_Transaction(data:Schema.GroupNewTransaction, group_id:str, username:str,
     
     new_balance = current-amount
     user.update_one({"username":username}, {'$set':{'balance':new_balance}})
+    user.update_one({"username":receiver}, {'$set':{'balance':(user.find_one({"username":receiver})['balance'])+amount}})
     
     transaction_info = {
         "amount":amount,

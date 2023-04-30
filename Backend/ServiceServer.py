@@ -76,6 +76,7 @@ def Send_Money(data:Schema.GroupNewTransaction, username:str, user=database.user
 
 def Get_Remainder(username:str, user=database.user, debt=database.debt):
     all_debt = user.find_one({"username":username})['debt']
+    # print(1)
     details = [
         {
             "id":i,
@@ -83,8 +84,9 @@ def Get_Remainder(username:str, user=database.user, debt=database.debt):
             "lender":debt.find_one({'_id':i})['lender'],
             "date":debt.find_one({'_id':i})['date']
         } for i in all_debt
-        if (username in debt.find_one({'_id':i})['borrower'])
+        if (username in (debt.find_one({'_id':i})['borrower']))
     ]
+    # print(1)
     return details
 
 def Pay_Debt(data:Schema.PayDebt, username:str, debt=database.debt, user=database.user, transaction=database.transaction):
