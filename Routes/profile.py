@@ -13,7 +13,7 @@ def redirect_to_profile(request:Request, current_user:Schema.UserData=Depends(Au
 def profile_Finder(request:Request, username:str):
     if username == None:
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"User, with {username} not exist")
-    current_user = Auth.get_current_user()
+    current_user = Auth.get_current_user(request.cookies.get("access_token"))
     if current_user == None:
         return  Profile_backend.public_profile(username)
     else:

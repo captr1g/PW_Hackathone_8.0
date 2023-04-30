@@ -60,12 +60,12 @@
                                 alert("Invalid Credential");
                                 window.location.href = '/login';
                             } else {
+                                console.log(data.access_token);
                                 var COOKIE_NAME = "AuthData";
                                 var d = new Date();
                                 d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
                                 var expires = "expires=" + d.toUTCString();
                                 document.cookie = `access_token=${data.access_token}`;
-                                document.cookie = `user=${data.user};`;
                                 window.location.href = '/';
                             }
                         })

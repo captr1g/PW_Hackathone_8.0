@@ -95,12 +95,13 @@ def get_user(username:str, user=database.user):
     
 
 def Login(data:OAuth2PasswordRequestForm):
-    user = get_user(data.username)
+    user = get_user(data.username.lower())
     if not user:
         return None
     else:
         if verify_password(data.password, user['password']):
-            access_token = create_access_token({"username":user['username'], "password":data.password})
+            access_token = create_access_token({"username":data.username.lower(), "password":data.password})
+            # print(access_token)
             return Schema.Token(access_token=access_token, token_type='bearer')
         else:
             return None
