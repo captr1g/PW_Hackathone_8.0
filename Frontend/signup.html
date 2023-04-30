@@ -31,8 +31,8 @@
                     class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full" />
             </div>
             <div class="mb-2">
-                <label for="username" class="font-bold mb-2 text-sm">USN/Staff ID</label> <br />
-                <input type="text" id="usn" placeholder="Type you're usn or staff id"
+                <label for="username" class="font-bold mb-2 text-sm">Username</label> <br />
+                <input type="text" id="usn" placeholder="Type you're username id"
                     class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full" for="username"/>
             </div>
             <div class="mb-2">
@@ -41,14 +41,19 @@
                     class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full" />
             </div>
             <div class="mb-2">
+                <label for="username" class="font-bold mb-2 text-sm">Phone Number</label> <br />
+                <input type="Phone" id="Phone" placeholder="Type you're Phone Number"
+                    class="border-b-2 pt-2 pb-2 pl-2 mb-2 w-full" />
+            </div>
+            <div class="mb-2">
                 <label for="dob" class="font-bold mb-2 text-sm">Date of Birth:</label>
                 <input type="date" id="dob"
                     class="form-input rounded-md py-2 px-2 block w-full leading-5 text-purple-600 focus:outline-none focus:shadow-outline-blue-300 transition duration-150 ease-in-out">
             </div>
             <div id="role" class="text-sm mb-2">
-                <label class="font-bold mb-2 text-sm">Role:</label> <br />
-                <input type="radio" name="choose" id="player" class="text-sm-mx-1"><label for="player">Player</label>
-                <input type="radio" name="choose" id="coach" class="text-sm-mx-1"><label for="coach">Coach</label>
+                <label class="font-bold mb-2 text-sm">Gender:</label> <br />
+                <input type="radio" name="choose" id="Male" class="text-sm-mx-1"><label for="Male">Male</label>
+                <input type="radio" name="choose" id="Female" class="text-sm-mx-1"><label for="Female">Female</label>
             </div>
             <div>
                 <label for="password" class="font-bold mb-2 text-sm">Password</label> <br />
@@ -69,27 +74,28 @@
         </div>
     </div>
     <script>
-        let playerRadioButton = document.getElementById("player");
-        let coachRadioButton = document.getElementById("coach");
+        let MaleRadioButton = document.getElementById("Male");
+        let FemaleRadioButton = document.getElementById("Female");
 
 
         let role = "";
-        playerRadioButton.addEventListener("click", function () {
-            playerRadioButton.setAttribute("checked", "checked");
-            coachRadioButton.removeAttribute("checked");
-            role = "player";
+        MaleRadioButton.addEventListener("click", function () {
+            MaleRadioButton.setAttribute("checked", "checked");
+            FemaleRadioButton.removeAttribute("checked");
+            role = "Male";
         });
 
-        coachRadioButton.addEventListener("click", function () {
-            coachRadioButton.setAttribute("checked", "checked");
-            playerRadioButton.removeAttribute("checked");
-            role = "coach";
+        FemaleRadioButton.addEventListener("click", function () {
+            FemaleRadioButton.setAttribute("checked", "checked");
+            MaleRadioButton.removeAttribute("checked");
+            role = "Female";
         });
 
         function register() {
             const nameInput = document.getElementById("name").value;
-            const usnInput = document.getElementById("usn").value;
+            const userInput = document.getElementById("username").value;
             const emailInput = document.getElementById("email").value;
+            const phoneInput = document.getElementById("Phone").value;
             const dateInput = document.getElementById("dob").value;
 
             const passwordInput = document.getElementById("password").value;
@@ -97,13 +103,13 @@
 
 
             const name = nameInput;
-            const usn = usnInput;
+            const username = userInput;
             const email = emailInput;
             const date = dateInput.toString();
             const password = passwordInput;
             const confirmpassword = confirmpasswordInput;
 
-            if (!name || !usn || !email || !date || !password || !confirmpassword) {
+            if (!name || !username || !email || !date || !password || !confirmpassword) {
                 alert("All fields are required!");
                 return;
             }
@@ -115,8 +121,9 @@
             console.log(role);
             const data = {
                 name: name,
-                usn: usn,
+                username: username,
                 email: email,
+                phone: phone,
                 dob: date,
                 password: password,
                 role: role
