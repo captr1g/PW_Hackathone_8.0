@@ -83,6 +83,7 @@ def Get_Remainder(username:str, user=database.user, debt=database.debt):
             "lender":debt.find_one({'_id':i})['lender'],
             "date":debt.find_one({'_id':i})['date']
         } for i in all_debt
+        if (username in debt.find_one({'_id':i})['borrower'])
     ]
     return details
 
@@ -126,5 +127,5 @@ def Pay_Debt(data:Schema.PayDebt, username:str, debt=database.debt, user=databas
     user.update_one({"username":receiver}, {'$push':{"transaction":data2.inserted_id}})
     
     debt.update_one({'_id':data.id}, {'$set':{"borrower":detail['borrower'].remove(username)}})
-    user.update_one({"username":username}, {'$set':{"debt":profile1['debt'].remove(data.id)}})
+    # user.update_one({"username":username}, {'$set':{"debt":profile1['debt'].remove(data.id)}})
     return str(data1.inserted_id)
