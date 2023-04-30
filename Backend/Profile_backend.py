@@ -11,7 +11,7 @@ def public_profile(username:str, user=database.user):
         "name" : profile["name"],
         "email" : profile["email"],
         "gender": profile["gender"],
-        "DOB": profile["DOB"],
+        "DOB": profile["dob"],
         "Address": profile["address"]
         }
     return data
@@ -28,7 +28,7 @@ def profile_Finder_backend(username: str, user=database.user):
         "email" : profile["email"],
         "phone_number" : profile["phone"],
         "gender": profile["gender"],
-        "DOB": profile["DOB"],
+        "DOB": profile["dob"],
         "Address": profile["address"],
         "friends": profile["friends"]
         }
@@ -40,7 +40,7 @@ def profile_Finder_backend(username: str, user=database.user):
             "name" : profile["name"],
             "email" : profile["email"],
             "gender": profile["gender"],
-            "DOB": profile["DOB"],
+            "DOB": profile["dob"],
             "Address": profile["address"]
         }
         return data
