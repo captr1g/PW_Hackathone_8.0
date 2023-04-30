@@ -1,3 +1,4 @@
+from bson import ObjectId
 from . import Schema, AuthorizeServer as Auth
 from Database import database
 from fastapi import HTTPException, status
@@ -86,7 +87,7 @@ def Get_Remainder(username:str, user=database.user, debt=database.debt):
             "lender":debt.find_one({'_id':i})['lender'],
             "date":debt.find_one({'_id':i})['date']
         } for i in all_debt
-        if (username in (debt.find_one({'_id':i})['borrower']))
+        if (username in (debt.find_one({'_id':ObjectId(i)})['borrower']))
     ]
     print(3)
     return details
