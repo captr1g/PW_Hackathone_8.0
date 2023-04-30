@@ -9,9 +9,9 @@ router = APIRouter(prefix='/services', tags=['Services'])
 template = Jinja2Templates(directory="Frontend")
 
 
-@router.get("/", status_code=status.HTTP_302_FOUND)
+@router.get("/", response_class=HTMLResponse ,status_code=status.HTTP_302_FOUND)
 def service_home(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
-    pass
+    return template.TemplateResponse("services.html", {"request":request})
 
 @router.post("/add", status_code=status.HTTP_202_ACCEPTED)
 def add_money(request:Schema.AddMoney, current_user:Schema.UserData=Depends(Auth.get_current_user)):

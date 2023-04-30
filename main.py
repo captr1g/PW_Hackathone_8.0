@@ -4,11 +4,7 @@ from Routes import Authorize, Group, profile, Service
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
-app = FastAPI(
-    title="PayShift",
-    description="PW Hackathon 8.0 Problem 6 Equishare exprense",
-    version="1.0.0"
-)
+app = FastAPI()
 template = Jinja2Templates(directory="Frontend")
 
 
