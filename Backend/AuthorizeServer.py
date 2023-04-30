@@ -29,6 +29,8 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
 
     async def __call__(self, request: Request) -> Optional[str]:
         authorization: str = request.cookies.get("access_token")
+        # print(request.cookies.get("access_token"))
+        print(request.cookies.get("access_token"))
         scheme, param = get_authorization_scheme_param(authorization)
         if not authorization:
             if self.auto_error:
@@ -110,6 +112,7 @@ def get_current_user(token : str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try :
+        
         result = jwt.decode(token, SECRET_KEY, ALGORITHM)
         username : str = result.get("username")
         if username is None:
