@@ -1,3 +1,4 @@
+from django.dispatch import receiver
 from pydantic import BaseModel
 from typing import List
 
@@ -87,5 +88,7 @@ class other_profile(BaseModel):
     Address: str
 
 class GroupNewTransaction(BaseModel):
+    receiver:str
     amount:float
+    password:str
     
