@@ -36,3 +36,5 @@ def find_friends(request:Request, current_user:Schema.UserData=Depends(Auth.get_
 def transaction(request:Schema.GroupNewTransaction, group_id:str, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     new_transaction = GroupServer.New_Transaction(request, group_id, current_user.username)
     return new_transaction
+# zlczcnsdjihdsuxcljsdln
+
