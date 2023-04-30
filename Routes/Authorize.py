@@ -27,7 +27,6 @@ def Login(request:OAuth2PasswordRequestForm = Depends()):
     if access_token is None:
         return HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid Credentials")
     else:
-        # print(access_token)
         return access_token
 
 @router.get('/login', response_class=HTMLResponse, status_code=status.HTTP_200_OK)

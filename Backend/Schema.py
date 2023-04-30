@@ -90,4 +90,15 @@ class GroupNewTransaction(BaseModel):
     receiver:str
     amount:float
     password:str
+
+class AddMoney(BaseModel):
+    amount:float
+    password:str
+
+class PayDebt(BaseModel):
+    id:str
+    amount:float
+    lender:str
+    date:str
+    password:str
     
