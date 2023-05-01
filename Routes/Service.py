@@ -27,7 +27,7 @@ def send_money(request:Schema.GroupNewTransaction, current_user:Schema.UserData=
     money = ServiceServer.Send_Money(request, current_user.username)
     return money
 
-@router.get("/remainder", status_code=status.HTTP_200_OK, response_class=HTMLResponse)
+@router.get("/debt", status_code=status.HTTP_200_OK, response_class=HTMLResponse)
 def get_remainder(request:Request, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     remainder = ServiceServer.Get_Remainder(current_user.username)
     # print(remainder)
@@ -35,7 +35,7 @@ def get_remainder(request:Request, current_user:Schema.UserData=Depends(Auth.get
     return template.TemplateResponse("debt.html",{"request":request, "remaninder": remainder})
 
 
-@router.post("/remainder", status_code=status.HTTP_202_ACCEPTED, response_class=HTMLResponse)
+@router.post("/debt", status_code=status.HTTP_202_ACCEPTED, response_class=HTMLResponse)
 def pay_debt(request:Schema.PayDebt, current_user:Schema.UserData=Depends(Auth.get_current_user)):
     payment = ServiceServer.Pay_Debt(request, current_user.username)
     return payment

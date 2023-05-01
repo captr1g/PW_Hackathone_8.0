@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report</title>
-    <link rel="stylesheet" href="homestyle.css">
+    <!-- <link rel="stylesheet" href="homestyle.css"> -->
     <style>
         *{
             margin: 0px;
@@ -367,7 +367,7 @@
             </div> -->
             <div class="menu">
                 <ul>
-                    <li><img src="./photo/logo-removebg-preview.png" alt="" height="50px"></li>
+                    <!-- <li><img src="./photo/logo-removebg-preview.png" alt="" height="50px"></li> -->
                     <li><a href="/">Home</a> </li>
                     <li><a href="/services">Services</a> </li>
                     <li><a href="/debt">Debt</a> </li>
@@ -406,7 +406,7 @@
                         <td>{{ r['lender'] }}</td>
                         <td>{{ r['date'] }}</td>
                         <td>Uncleared</td>
-                        <td><button class="btn" onclick='Delete("{{ r[\"id\"] }}")'>Pay</button></td>
+                        <td><button class="btn" onclick='Delete("{{ r[id] }}")'>Pay</button></td>
                     </tr>
                     {% endfor %}
                 </tbody>
